@@ -1,0 +1,36 @@
+[profile.dev]
+codegen-units = 256
+debug = false
+lto = false
+opt-level = 0
+panic = "unwind"
+strip = "debuginfo"
+
+[profile.release]
+codegen-units = 1
+debug = false
+lto = "thin"
+opt-level = 2
+panic = "unwind"
+strip = "symbols"
+
+[workspace]
+members = [
+  "crates/giacometti"
+]
+resolver = "2"
+
+[workspace.dependencies]
+# Internal crates
+genson-cli = {path = "genson-cli", version = "0.7.4"}
+
+[workspace.package]
+authors = ["Louis Maddox <louismmx@gmail.com>"]
+description = "Git framework for security hardening"
+edition = "2021"
+homepage = "https://github.com/lmmx/giacometti"
+keywords = ["git", "cli", "security", "policy", "hardening"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/lmmx/giacometti"
+version = "0.1.0"

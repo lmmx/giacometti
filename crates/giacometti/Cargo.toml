@@ -1,0 +1,44 @@
+[[bin]]
+name = "gcmti"
+path = "src/main.rs"
+
+[dependencies]
+
+[dev-dependencies]
+
+[lints.clippy]
+all = "deny"
+pedantic = "deny"
+cargo = "deny"
+
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "warn"
+
+
+[package]
+name = "giacometti"
+categories = ["command-line-utilities", "development-tools"]
+description = "Hardened Git CLI with policy enforcement and least-privilege principles"
+documentation = "https://docs.rs/giacometti/"
+keywords = ["git", "cli", "security", "hardening", "policy"]
+readme = "README.md"
+rust-version = "1.75"
+version = "0.1.0"
+authors.workspace = true
+edition.workspace = true
+homepage.workspace = true
+license.workspace = true
+repository.workspace = true
+
+[package.metadata.binstall]
+pkg-fmt = "tgz"
+pkg-url = "https://github.com/lmmx/giacometti/releases/download/giacometti-v{ version }/giacometti-{ target }-v{ version }.tar.gz"
+
+[package.metadata.binstall.overrides.aarch64-pc-windows-msvc]
+pkg-fmt = "zip"
+pkg-url = "https://github.com/lmmx/giacometti/releases/download/giacometti-v{ version }/giacometti-aarch64-pc-windows-msvc-v{ version }.zip"
+
+[package.metadata.binstall.overrides.x86_64-pc-windows-msvc]
+pkg-fmt = "zip"
+pkg-url = "https://github.com/lmmx/giacometti/releases/download/giacometti-v{ version }/giacometti-x86_64-pc-windows-msvc-v{ version }.zip"
