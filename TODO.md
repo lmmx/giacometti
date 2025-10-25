@@ -1,0 +1,3 @@
+- So far there's a basic sketch of the policy part
+- I want to add the GitHub backend but don't want to introduce awkward reqwest
+- I'd like to get the entire CLI and GitHub Action infra set up ASAP to then build out

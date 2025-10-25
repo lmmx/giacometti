@@ -13,7 +13,7 @@ cargo = "deny"
 
 [lints.rust]
 unsafe_code = "forbid"
-missing_docs = "warn"
+missing_docs = "deny"
 
 
 [package]

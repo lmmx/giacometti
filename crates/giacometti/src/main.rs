@@ -1,6 +1,10 @@
+// giacometti/src/main.rs
+
 //! Giacometti - Hardened Git CLI with policy enforcement
 //!
 //! A security-focused Git wrapper that enforces policies with principle of least privilege.
+
+mod policy;
 
 use std::convert::TryFrom;
 use std::process::{Command, ExitCode};
@@ -14,6 +18,12 @@ fn main() -> ExitCode {
         eprintln!("  gcmti status");
         eprintln!("  gcmti commit -m 'message'");
         eprintln!("  gcmti push origin main");
+        return ExitCode::FAILURE;
+    }
+
+    // Enforce policy before executing
+    if let Err(e) = policy::enforce(&args) {
+        eprintln!("Policy violation: {e}");
         return ExitCode::FAILURE;
     }
 
