@@ -2,7 +2,7 @@
 
 //! Git tag operations
 
-use crate::backends::types::{BackendError, GitBackend};
+use crate::backends::git::types::{BackendError, GitBackend};
 
 /// Create an annotated tag with a message
 ///

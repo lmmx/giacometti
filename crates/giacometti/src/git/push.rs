@@ -2,7 +2,7 @@
 
 //! Git push operations
 
-use crate::backends::types::{BackendError, GitBackend};
+use crate::backends::git::types::{BackendError, GitBackend};
 
 /// Push a refspec to a remote repository
 ///

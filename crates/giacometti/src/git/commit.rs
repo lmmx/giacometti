@@ -2,7 +2,7 @@
 
 //! Git commit operations
 
-use crate::backends::types::{BackendError, GitBackend};
+use crate::backends::git::types::{BackendError, GitBackend};
 
 /// Create a commit with the given message
 ///
