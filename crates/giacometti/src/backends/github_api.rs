@@ -4,9 +4,15 @@
 
 use super::types::{BackendError, GitBackend, ResetMode};
 
+/// GitHub API backend for creating verified commits (not yet implemented)
 pub struct GitHubApiBackend;
 
 impl GitHubApiBackend {
+    /// Create a new GitHub API backend
+    ///
+    /// # Errors
+    ///
+    /// Currently always returns an error as this backend is not yet implemented
     pub fn new() -> Result<Self, BackendError> {
         Err(BackendError::new("GitHub API backend not yet implemented"))
     }

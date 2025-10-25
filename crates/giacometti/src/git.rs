@@ -1,4 +1,4 @@
-// src/git/mod.rs
+// src/git.rs
 
 //! Git operations
 

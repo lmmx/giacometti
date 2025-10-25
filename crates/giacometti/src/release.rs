@@ -5,31 +5,48 @@
 use std::process::{Command, ExitCode};
 
 /// Run the release workflow (MVP: exact replica of `just release`)
+#[must_use]
 pub fn run(bump_level: &str) -> ExitCode {
     eprintln!("📦 Starting release workflow (bump: {bump_level})");
 
     // Steps match .just/ship.just exactly
-    if !bump_version(bump_level) { return ExitCode::FAILURE; }
-    if !stage_all() { return ExitCode::FAILURE; }
-    if !temp_commit() { return ExitCode::FAILURE; }
+    if !bump_version(bump_level) {
+        return ExitCode::FAILURE;
+    }
+    if !stage_all() {
+        return ExitCode::FAILURE;
+    }
+    if !temp_commit() {
+        return ExitCode::FAILURE;
+    }
 
-    let version = match get_version() {
-        Some(v) => v,
-        None => return ExitCode::FAILURE,
+    let Some(version) = get_version() else {
+        return ExitCode::FAILURE;
     };
 
-    if !reset_soft() { return ExitCode::FAILURE; }
-    if !stage_all() { return ExitCode::FAILURE; }
-    if !real_commit(&version) { return ExitCode::FAILURE; }
-    if !create_tag(&version) { return ExitCode::FAILURE; }
+    if !reset_soft() {
+        return ExitCode::FAILURE;
+    }
+    if !stage_all() {
+        return ExitCode::FAILURE;
+    }
+    if !real_commit(&version) {
+        return ExitCode::FAILURE;
+    }
+    if !create_tag(&version) {
+        return ExitCode::FAILURE;
+    }
 
-    let branch = match get_branch() {
-        Some(b) => b,
-        None => return ExitCode::FAILURE,
+    let Some(branch) = get_branch() else {
+        return ExitCode::FAILURE;
     };
 
-    if !push_commit(&branch) { return ExitCode::FAILURE; }
-    if !push_tag(&version) { return ExitCode::FAILURE; }
+    if !push_commit(&branch) {
+        return ExitCode::FAILURE;
+    }
+    if !push_tag(&version) {
+        return ExitCode::FAILURE;
+    }
 
     eprintln!("✅ Release complete: v{version}");
     ExitCode::SUCCESS

@@ -4,9 +4,15 @@
 
 use super::types::{BackendError, GitBackend, ResetMode};
 
+/// Gitoxide backend for pure-Rust git operations (not yet implemented)
 pub struct GitoxideBackend;
 
 impl GitoxideBackend {
+    /// Create a new gitoxide backend
+    ///
+    /// # Errors
+    ///
+    /// Currently always returns an error as this backend is not yet implemented
     pub fn new() -> Result<Self, BackendError> {
         Err(BackendError::new("Gitoxide backend not yet implemented"))
     }

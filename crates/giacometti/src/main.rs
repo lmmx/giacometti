@@ -1,11 +1,8 @@
 // src/main.rs
 
-//! Giacometti - Hardened Git CLI with policy enforcement
-//!
-//! A security-focused Git wrapper that enforces policies with principle of least privilege.
+//! CLI binary for giacometti
 
-mod policy;
-
+use giacometti::policy;
 use std::convert::TryFrom;
 use std::process::{Command, ExitCode};
 

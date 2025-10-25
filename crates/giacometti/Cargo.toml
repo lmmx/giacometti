@@ -15,7 +15,6 @@ cargo = "deny"
 unsafe_code = "forbid"
 missing_docs = "deny"
 
-
 [package]
 name = "giacometti"
 categories = ["command-line-utilities", "development-tools"]

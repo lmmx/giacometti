@@ -1,4 +1,4 @@
-// src/backends/mod.rs
+// src/backends.rs
 
 //! Git backends
 

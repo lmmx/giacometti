@@ -5,13 +5,22 @@
 use super::types::{BackendError, GitBackend, ResetMode};
 use std::process::Command;
 
+/// Shell backend that executes git commands via the system git binary
 pub struct ShellBackend;
 
 impl ShellBackend {
+    /// Create a new shell backend
+    #[must_use]
     pub fn new() -> Self {
         Self
     }
 
+    /// Run a git command and return success/failure
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the git command fails or cannot be executed
+    #[allow(clippy::unused_self)]
     fn run(&self, args: &[&str]) -> Result<(), BackendError> {
         match Command::new("git").args(args).status() {
             Ok(status) if status.success() => Ok(()),
@@ -20,6 +29,12 @@ impl ShellBackend {
         }
     }
 
+    /// Run a git command and capture its output
+    ///
+    /// # Errors
+    ///
+    /// Returns an error if the git command fails or cannot be executed
+    #[allow(clippy::unused_self)]
     fn run_output(&self, args: &[&str]) -> Result<String, BackendError> {
         match Command::new("git").args(args).output() {
             Ok(output) if output.status.success() => {
@@ -28,6 +43,12 @@ impl ShellBackend {
             Ok(_) => Err(BackendError::new("Git command failed")),
             Err(e) => Err(BackendError::new(format!("Failed to execute git: {e}"))),
         }
+    }
+}
+
+impl Default for ShellBackend {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
