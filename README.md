@@ -12,7 +12,7 @@ Git framework for security hardening
 gcmti release --bump minor --backend github-api
 ```
 
-2. In GHA (no JS actions, pure compiled binary)
+2. In GHA (compiled Rust binary)
 
 ```sh
 - uses: lmmx/giacometti@v1
@@ -24,26 +24,12 @@ gcmti release --bump minor --backend github-api
 
 ## Rationale
 
-Why you’d bother with such a contortion just to achieve the same as ad-hoc YAML is that you can generalise releasing as a trivial function of metadata.
-Risk of making a mistake is higher if these are always one offs (turning it into a program and then from there externalising program config as TOML
-makes it easier and reduces context switching). When it’s trivial to copy to new repos you do it more.
 
-1. **3 backends** - Choose based on environment/needs:
-   - `git` - Shell out (simple, works everywhere git is available)
-   - `gitoxide` - Pure Rust (no git binary needed)
-   - `github-api` - Direct API calls (used in the CI GitHub Action, Verified commits)
+1. **Multiple backends** - Git operations support 3 backends (`git`, `gitoxide`, `github-api`). uv operations support 2 backends (`shell`, `rust_crate`).
 2. **Standardised** - Allows release process standardisation rather than ad-hoc YAML scripting.
-3. **Hardened CI releases** - Giacometti is designed to harden the security posture of CI release automation:
-   - The same way we apply package-wide linter settings that prevent mistakes, we should be able to
-     apply a principle of least privilege to git operations that are done via automated CI workflows.
-   - The ad-hoc nature of CI release may not pose a security risk in itself, but a lack of automation
-     and easily intelligible/portable configuration around it prevents clarity around it (which does).
+3. **Hardened CI releases** - Applies principle of least privilege to git operations in automated workflows.
 
-I think this would lead to a more natural user experience when it comes to understanding how CI
-works: a GitHub Action with transparent CLI flag-equivalent control of a Rust binary's config would
-be naturally much easier to follow in Rust than shell or other languages. I see a trend in the Python
-ecosystem towards devtools written in Rust in part because they are very easy to reason about and
-perform excellently.
+Transparent CLI control of a Rust binary is easier to reason about than shell scripts in CI workflows.
 
 ## Installation
 
