@@ -2,7 +2,7 @@
 
 //! Git rev-parse operations
 
-use crate::backends::types::{BackendError, GitBackend};
+use crate::backends::git::types::{BackendError, GitBackend};
 
 /// Get the name of the current branch
 ///

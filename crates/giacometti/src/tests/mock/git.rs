@@ -1,6 +1,6 @@
 // src/tests/mock/git.rs
 
-use crate::backends::types::{BackendError, GitBackend, ResetMode};
+use crate::backends::git::types::{BackendError, GitBackend, ResetMode};
 use super::MockBackend;
 
 impl GitBackend for MockBackend {

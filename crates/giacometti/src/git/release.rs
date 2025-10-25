@@ -2,8 +2,8 @@
 
 //! Release automation workflow
 
-use crate::backends::shell::ShellBackend;
-use crate::backends::types::GitBackend;
+use crate::backends::git::shell::ShellBackend;
+use crate::backends::git::types::GitBackend;
 use crate::git;
 use std::process::{Command, ExitCode};
 
@@ -18,7 +18,7 @@ pub fn run(bump_level: &str) -> ExitCode {
     ExitCode::SUCCESS
 }
 
-fn run_release<B: GitBackend>(backend: &B, bump_level: &str) -> Result<(), crate::backends::types::BackendError> {
+fn run_release<B: GitBackend>(backend: &B, bump_level: &str) -> Result<(), crate::backends::git::types::BackendError> {
     eprintln!("📦 Starting release (bump: {bump_level})");
 
     // 1. Bump version
@@ -49,20 +49,20 @@ fn run_release<B: GitBackend>(backend: &B, bump_level: &str) -> Result<(), crate
     Ok(())
 }
 
-fn uv_bump(level: &str) -> Result<(), crate::backends::types::BackendError> {
+fn uv_bump(level: &str) -> Result<(), crate::backends::git::types::BackendError> {
     // TODO: move to uv module
     match Command::new("uv").args(["version", "--bump", level]).status() {
         Ok(status) if status.success() => Ok(()),
-        _ => Err(crate::backends::types::BackendError::new("uv bump failed")),
+        _ => Err(crate::backends::git::types::BackendError::new("uv bump failed")),
     }
 }
 
-fn uv_get_version() -> Result<String, crate::backends::types::BackendError> {
+fn uv_get_version() -> Result<String, crate::backends::git::types::BackendError> {
     // TODO: move to uv module
     match Command::new("uv").args(["version", "--short"]).output() {
         Ok(output) if output.status.success() => {
             Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
         }
-        _ => Err(crate::backends::types::BackendError::new("uv version failed")),
+        _ => Err(crate::backends::git::types::BackendError::new("uv version failed")),
     }
 }
