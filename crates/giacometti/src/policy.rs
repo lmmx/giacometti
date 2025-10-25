@@ -1,4 +1,4 @@
-// giacometti/src/policy.rs
+// src/policy.rs
 
 //! Policy enforcement for git operations
 

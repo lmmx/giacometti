@@ -1,4 +1,4 @@
-// giacometti/src/main.rs
+// src/main.rs
 
 //! Giacometti - Hardened Git CLI with policy enforcement
 //!
