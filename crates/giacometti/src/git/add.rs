@@ -2,7 +2,7 @@
 
 //! Git add operations
 
-use crate::backends::git::types::{BackendError, GitBackend};
+use crate::backends::git::types::{GitBackendError, GitBackend};
 
 /// Stage all changes for commit
 ///
@@ -11,6 +11,6 @@ use crate::backends::git::types::{BackendError, GitBackend};
 /// # Errors
 ///
 /// Returns an error if the git add operation fails
-pub fn add_all<B: GitBackend>(backend: &B) -> Result<(), BackendError> {
+pub fn add_all<B: GitBackend>(backend: &B) -> Result<(), GitBackendError> {
     backend.add(&["--all"])
 }

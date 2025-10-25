@@ -53,7 +53,7 @@ fn uv_bump(level: &str) -> Result<(), crate::backends::git::types::BackendError>
     // TODO: move to uv module
     match Command::new("uv").args(["version", "--bump", level]).status() {
         Ok(status) if status.success() => Ok(()),
-        _ => Err(crate::backends::git::types::BackendError::new("uv bump failed")),
+        _ => Err(crate::backends::git::types::GitBackendError::new("uv bump failed")),
     }
 }
 
@@ -63,6 +63,6 @@ fn uv_get_version() -> Result<String, crate::backends::git::types::BackendError>
         Ok(output) if output.status.success() => {
             Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
         }
-        _ => Err(crate::backends::git::types::BackendError::new("uv version failed")),
+        _ => Err(crate::backends::git::types::GitBackendError::new("uv version failed")),
     }
 }

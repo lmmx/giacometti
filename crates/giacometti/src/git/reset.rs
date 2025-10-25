@@ -2,7 +2,7 @@
 
 //! Git reset operations
 
-use crate::backends::git::types::{BackendError, GitBackend, ResetMode};
+use crate::backends::git::types::{GitBackendError, GitBackend, ResetMode};
 
 /// Perform a soft reset to the target commit
 ///
@@ -11,6 +11,6 @@ use crate::backends::git::types::{BackendError, GitBackend, ResetMode};
 /// # Errors
 ///
 /// Returns an error if the git reset operation fails
-pub fn soft_reset<B: GitBackend>(backend: &B, target: &str) -> Result<(), BackendError> {
+pub fn soft_reset<B: GitBackend>(backend: &B, target: &str) -> Result<(), GitBackendError> {
     backend.reset(ResetMode::Soft, target)
 }
