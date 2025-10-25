@@ -1,4 +1,4 @@
-// giacometti/src/policy.rs
+// src/policy.rs
 
 //! Policy enforcement for git operations
 
@@ -25,6 +25,10 @@ impl PolicyError {
 }
 
 /// Enforce security policies on git command
+///
+/// # Errors
+///
+/// Returns an error if the command violates security policy or is not in the allowlist
 pub fn enforce(args: &[String]) -> Result<(), PolicyError> {
     if args.is_empty() {
         return Err(PolicyError::new("No command provided"));
@@ -39,15 +43,18 @@ pub fn enforce(args: &[String]) -> Result<(), PolicyError> {
 
         // Write operations (need more checks)
         "commit" | "add" | "push" | "pull" => {
+            // TODO: Add policy checks for write operations:
+            // - commit: verify signing requirements
+            // - push: verify not force push, check branch protections
+            // - add: validate pathspecs
+            // - pull: verify remote is trusted
             Ok(())
         }
 
         // Dangerous operations (blocked by default)
-        "reset" | "rebase" | "force" | "push --force" => {
-            Err(PolicyError::new(format!(
-                "Command '{command}' is blocked by security policy",
-            )))
-        }
+        "reset" | "rebase" | "force" | "push --force" => Err(PolicyError::new(format!(
+            "Command '{command}' is blocked by security policy",
+        ))),
 
         // Unknown commands (block by default for least privilege)
         _ => Err(PolicyError::new(format!(
