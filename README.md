@@ -1,6 +1,5 @@
 # giacometti
 
-[![License](https://img.shields.io/pypi/l/giacometti.svg)](https://pypi.python.org/pypi/giacometti)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/lmmx/giacometti/master.svg)](https://results.pre-commit.ci/latest/github/lmmx/giacometti/master)
 
 Git framework for security hardening
