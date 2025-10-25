@@ -1,4 +1,4 @@
-// src/backends/types.rs
+// src/backends/git/types.rs
 
 //! Backend trait and types
 
@@ -16,42 +16,42 @@ pub trait GitBackend {
     /// # Errors
     ///
     /// Returns an error if the git add operation fails
-    fn add(&self, pathspec: &[&str]) -> Result<(), BackendError>;
+    fn add(&self, pathspec: &[&str]) -> Result<(), GitBackendError>;
 
     /// Create a commit with the given message
     ///
     /// # Errors
     ///
     /// Returns an error if the git commit operation fails
-    fn commit(&self, message: &str) -> Result<(), BackendError>;
+    fn commit(&self, message: &str) -> Result<(), GitBackendError>;
 
     /// Reset the current HEAD to the specified state
     ///
     /// # Errors
     ///
     /// Returns an error if the git reset operation fails
-    fn reset(&self, mode: ResetMode, target: &str) -> Result<(), BackendError>;
+    fn reset(&self, mode: ResetMode, target: &str) -> Result<(), GitBackendError>;
 
     /// Create a git tag
     ///
     /// # Errors
     ///
     /// Returns an error if the git tag operation fails
-    fn tag(&self, name: &str, message: Option<&str>, annotated: bool) -> Result<(), BackendError>;
+    fn tag(&self, name: &str, message: Option<&str>, annotated: bool) -> Result<(), GitBackendError>;
 
     /// Execute git rev-parse with the given arguments
     ///
     /// # Errors
     ///
     /// Returns an error if the git rev-parse operation fails
-    fn rev_parse(&self, args: &[&str]) -> Result<String, BackendError>;
+    fn rev_parse(&self, args: &[&str]) -> Result<String, GitBackendError>;
 
     /// Push to a remote repository
     ///
     /// # Errors
     ///
     /// Returns an error if the git push operation fails
-    fn push(&self, remote: &str, refspec: &str) -> Result<(), BackendError>;
+    fn push(&self, remote: &str, refspec: &str) -> Result<(), GitBackendError>;
 }
 
 /// Git reset mode
@@ -65,15 +65,15 @@ pub enum ResetMode {
     Hard,
 }
 
-/// Error returned by backend operations
+/// Error returned by git backend operations
 #[derive(Debug)]
-pub struct BackendError {
+pub struct GitBackendError {
     /// Error message
     pub message: String,
 }
 
-impl BackendError {
-    /// Create a new backend error
+impl GitBackendError {
+    /// Create a new git backend error
     #[must_use]
     pub fn new(message: impl Into<String>) -> Self {
         Self {
@@ -82,10 +82,16 @@ impl BackendError {
     }
 }
 
-impl fmt::Display for BackendError {
+impl fmt::Display for GitBackendError {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         write!(f, "{}", self.message)
     }
 }
 
-impl std::error::Error for BackendError {}
+impl std::error::Error for GitBackendError {}
+
+impl crate::backends::types::BackendError for GitBackendError {
+    fn message(&self) -> &str {
+        &self.message
+    }
+}

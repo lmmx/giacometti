@@ -1,8 +1,8 @@
-// src/backends/shell.rs
+// src/backends/git/shell.rs
 
 //! Shell-based git backend (MVP)
 
-use super::types::{BackendError, GitBackend, ResetMode};
+use super::types::{GitBackend, GitBackendError, ResetMode};
 use std::process::Command;
 
 /// Shell backend that executes git commands via the system git binary
@@ -21,11 +21,11 @@ impl ShellBackend {
     ///
     /// Returns an error if the git command fails or cannot be executed
     #[allow(clippy::unused_self)]
-    fn run(&self, args: &[&str]) -> Result<(), BackendError> {
+    fn run(&self, args: &[&str]) -> Result<(), GitBackendError> {
         match Command::new("git").args(args).status() {
             Ok(status) if status.success() => Ok(()),
-            Ok(_) => Err(BackendError::new("Git command failed")),
-            Err(e) => Err(BackendError::new(format!("Failed to execute git: {e}"))),
+            Ok(_) => Err(GitBackendError::new("Git command failed")),
+            Err(e) => Err(GitBackendError::new(format!("Failed to execute git: {e}"))),
         }
     }
 
@@ -35,13 +35,13 @@ impl ShellBackend {
     ///
     /// Returns an error if the git command fails or cannot be executed
     #[allow(clippy::unused_self)]
-    fn run_output(&self, args: &[&str]) -> Result<String, BackendError> {
+    fn run_output(&self, args: &[&str]) -> Result<String, GitBackendError> {
         match Command::new("git").args(args).output() {
             Ok(output) if output.status.success() => {
                 Ok(String::from_utf8_lossy(&output.stdout).trim().to_string())
             }
-            Ok(_) => Err(BackendError::new("Git command failed")),
-            Err(e) => Err(BackendError::new(format!("Failed to execute git: {e}"))),
+            Ok(_) => Err(GitBackendError::new("Git command failed")),
+            Err(e) => Err(GitBackendError::new(format!("Failed to execute git: {e}"))),
         }
     }
 }
@@ -53,17 +53,17 @@ impl Default for ShellBackend {
 }
 
 impl GitBackend for ShellBackend {
-    fn add(&self, pathspec: &[&str]) -> Result<(), BackendError> {
+    fn add(&self, pathspec: &[&str]) -> Result<(), GitBackendError> {
         let mut args = vec!["add"];
         args.extend(pathspec);
         self.run(&args)
     }
 
-    fn commit(&self, message: &str) -> Result<(), BackendError> {
+    fn commit(&self, message: &str) -> Result<(), GitBackendError> {
         self.run(&["commit", "-m", message])
     }
 
-    fn reset(&self, mode: ResetMode, target: &str) -> Result<(), BackendError> {
+    fn reset(&self, mode: ResetMode, target: &str) -> Result<(), GitBackendError> {
         let mode_str = match mode {
             ResetMode::Soft => "--soft",
             ResetMode::Mixed => "--mixed",
@@ -72,7 +72,7 @@ impl GitBackend for ShellBackend {
         self.run(&["reset", mode_str, target])
     }
 
-    fn tag(&self, name: &str, message: Option<&str>, annotated: bool) -> Result<(), BackendError> {
+    fn tag(&self, name: &str, message: Option<&str>, annotated: bool) -> Result<(), GitBackendError> {
         let mut args = vec!["tag"];
         if annotated {
             args.push("-a");
@@ -85,13 +85,13 @@ impl GitBackend for ShellBackend {
         self.run(&args)
     }
 
-    fn rev_parse(&self, args: &[&str]) -> Result<String, BackendError> {
+    fn rev_parse(&self, args: &[&str]) -> Result<String, GitBackendError> {
         let mut cmd_args = vec!["rev-parse"];
         cmd_args.extend(args);
         self.run_output(&cmd_args)
     }
 
-    fn push(&self, remote: &str, refspec: &str) -> Result<(), BackendError> {
+    fn push(&self, remote: &str, refspec: &str) -> Result<(), GitBackendError> {
         self.run(&["push", remote, refspec])
     }
 }
