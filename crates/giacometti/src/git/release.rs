@@ -1,4 +1,4 @@
-// src/release.rs
+// src/git/release.rs
 
 //! Release automation workflow
 
@@ -18,7 +18,7 @@ pub fn run(bump_level: &str) -> ExitCode {
     ExitCode::SUCCESS
 }
 
-fn run_release(backend: &dyn GitBackend, bump_level: &str) -> Result<(), crate::backends::types::BackendError> {
+fn run_release<B: GitBackend>(backend: &B, bump_level: &str) -> Result<(), crate::backends::types::BackendError> {
     eprintln!("📦 Starting release (bump: {bump_level})");
 
     // 1. Bump version

@@ -7,7 +7,6 @@
 pub mod backends;
 pub mod git;
 pub mod policy;
-pub mod release;
 
 #[cfg(test)]
 mod tests;

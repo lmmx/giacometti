@@ -9,6 +9,6 @@ use crate::backends::types::{BackendError, GitBackend};
 /// # Errors
 ///
 /// Returns an error if the git commit operation fails
-pub fn commit(backend: &dyn GitBackend, message: &str) -> Result<(), BackendError> {
+pub fn commit<B: GitBackend>(backend: &B, message: &str) -> Result<(), BackendError> {
     backend.commit(message)
 }

@@ -9,6 +9,6 @@ use crate::backends::types::{BackendError, GitBackend};
 /// # Errors
 ///
 /// Returns an error if the git rev-parse operation fails
-pub fn get_current_branch(backend: &dyn GitBackend) -> Result<String, BackendError> {
+pub fn get_current_branch<B: GitBackend>(backend: &B) -> Result<String, BackendError> {
     backend.rev_parse(&["--abbrev-ref", "HEAD"])
 }

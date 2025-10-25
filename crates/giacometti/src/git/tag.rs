@@ -9,8 +9,8 @@ use crate::backends::types::{BackendError, GitBackend};
 /// # Errors
 ///
 /// Returns an error if the git tag operation fails
-pub fn annotated_tag(
-    backend: &dyn GitBackend,
+pub fn annotated_tag<B: GitBackend>(
+    backend: &B,
     name: &str,
     message: &str,
 ) -> Result<(), BackendError> {

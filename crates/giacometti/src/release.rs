@@ -1,7 +1,6 @@
 // src/release.rs
 
 //! Release automation workflow
-
 use std::process::{Command, ExitCode};
 
 /// Run the release workflow (MVP: exact replica of `just release`)

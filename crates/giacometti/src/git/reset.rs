@@ -11,6 +11,6 @@ use crate::backends::types::{BackendError, GitBackend, ResetMode};
 /// # Errors
 ///
 /// Returns an error if the git reset operation fails
-pub fn soft_reset(backend: &dyn GitBackend, target: &str) -> Result<(), BackendError> {
+pub fn soft_reset<B: GitBackend>(backend: &B, target: &str) -> Result<(), BackendError> {
     backend.reset(ResetMode::Soft, target)
 }

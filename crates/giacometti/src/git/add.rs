@@ -11,6 +11,6 @@ use crate::backends::types::{BackendError, GitBackend};
 /// # Errors
 ///
 /// Returns an error if the git add operation fails
-pub fn add_all(backend: &dyn GitBackend) -> Result<(), BackendError> {
+pub fn add_all<B: GitBackend>(backend: &B) -> Result<(), BackendError> {
     backend.add(&["--all"])
 }
